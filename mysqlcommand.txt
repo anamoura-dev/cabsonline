@@ -1,0 +1,18 @@
+CREATE DATABASE bvf2703;
+USE bvf2703;
+
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_ref VARCHAR(8) NOT NULL UNIQUE,
+    customer_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(12) NOT NULL,
+    unit_number VARCHAR(20),
+    street_number VARCHAR(20) NOT NULL,
+    street_name VARCHAR(100) NOT NULL,
+    suburb VARCHAR(100),
+    destination_suburb VARCHAR(100),
+    pickup_date DATE NOT NULL,
+    pickup_time TIME NOT NULL,
+    booking_datetime DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL
+);

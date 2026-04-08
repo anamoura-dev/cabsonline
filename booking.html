@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: booking.html
+    Description: This file displays the booking page for the CabsOnline system.
+    It allows users to enter taxi booking details and submit them for processing.
+-->
+
+<html>
+<head>
+    <title>CabsOnline Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Book a Taxi</h1>
+
+        <form id="booking-form" method="POST">
+            <div class="form-row">
+                <label>Name
+                    <input type="text" name="cname" required>
+                </label>
+
+                <label>Phone
+                    <input type="text" name="phone" required>
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label>Street Number
+                    <input type="text" name="snumber" required>
+                </label>
+
+                <label>Street Name
+                    <input type="text" name="stname" required>
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label>Unit Number
+                    <input type="text" name="unumber">
+                </label>
+
+                <label>Suburb
+                    <input type="text" name="sbname">
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label>Destination Suburb
+                    <input type="text" name="dsbname">
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label>Pickup Date
+                    <input type="date" name="date" value="2026-05-01" required>
+                </label>
+
+                <label>Pickup Time
+                    <input type="time" name="time" value="18:30" required>
+                </label>
+            </div>
+
+            <button type="submit">Book Now</button>
+        </form>
+
+        <div id="reference" class="confirmation"></div>
+    </div>
+
+    <script src="booking.js"></script>
+</body>
+</html>
