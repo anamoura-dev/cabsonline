@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CabsOnline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">🚕</span>
+            <h2>CabsOnline</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-link active" data-section="booking">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Book a Taxi
+            </a>
+            <a href="#" class="nav-link" data-section="admin">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Admin Panel
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button type="button" class="theme-toggle" id="themeToggle">
+                <svg id="themeIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <span id="themeLabel">Light Mode</span>
+            </button>
+            <small>&copy; 2026 CabsOnline</small>
+        </div>
+    </aside>
+
+    <!-- Mobile top bar -->
+    <header class="mobile-header" id="mobileHeader">
+        <span class="logo">🚕</span>
+        <h2>CabsOnline</h2>
+        <button type="button" class="theme-toggle-mini" id="themeToggleMobile" aria-label="Toggle theme">
+            <svg id="themeIconMobile" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+    </header>
+
+    <!-- Mobile bottom tab bar -->
+    <nav class="tabbar" id="tabbar">
+        <a href="#" class="tab-link active" data-section="booking">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <span>Booking</span>
+        </a>
+        <a href="#" class="tab-link" data-section="admin">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <span>Admin</span>
+        </a>
+    </nav>
+
+    <main class="main-content">
+
+        <!-- BOOKING SECTION -->
+        <section class="page-section active" id="section-booking">
+            <h1>Book a Taxi</h1>
+
+            <form id="booking-form" method="POST">
+                <div class="form-row">
+                    <label>Name
+                        <input type="text" name="cname" required>
+                    </label>
+                    <label>Phone
+                        <input type="text" name="phone" required>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label>Street Number
+                        <input type="text" name="snumber" required>
+                    </label>
+                    <label>Street Name
+                        <input type="text" name="stname" required>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label>Unit Number
+                        <input type="text" name="unumber">
+                    </label>
+                    <label>Suburb
+                        <input type="text" name="sbname">
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label>Destination Suburb
+                        <input type="text" name="dsbname">
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label>Pickup Date
+                        <input type="date" name="date" required>
+                    </label>
+                    <label>Pickup Time
+                        <input type="time" name="time" required>
+                    </label>
+                </div>
+
+                <button type="submit">Book Now</button>
+            </form>
+
+            <div id="reference" class="confirmation"></div>
+        </section>
+
+        <!-- ADMIN SECTION -->
+        <section class="page-section" id="section-admin">
+            <h1>Admin Panel</h1>
+            <p class="subtitle">All bookings are listed below. Use the search to filter by reference number.</p>
+
+            <div class="search-bar">
+                <input type="text" id="bsearch" name="bsearch" placeholder="e.g. BRN00001">
+                <button type="button" id="searchBooking">Search</button>
+            </div>
+
+            <p id="adminMessage" class="message"></p>
+
+            <div id="result"></div>
+        </section>
+
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Edit Booking <span id="edit-ref-display"></span></h2>
+                <button type="button" class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" name="ref" id="edit-ref">
+                <div class="form-row">
+                    <label>Customer Name
+                        <input type="text" name="customer_name" id="edit-customer_name" required>
+                    </label>
+                    <label>Phone
+                        <input type="text" name="phone" id="edit-phone" required>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Street Number
+                        <input type="text" name="street_number" id="edit-street_number" required>
+                    </label>
+                    <label>Street Name
+                        <input type="text" name="street_name" id="edit-street_name" required>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Unit Number
+                        <input type="text" name="unit_number" id="edit-unit_number">
+                    </label>
+                    <label>Suburb
+                        <input type="text" name="suburb" id="edit-suburb">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Destination Suburb
+                        <input type="text" name="destination_suburb" id="edit-destination_suburb">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Pickup Date
+                        <input type="date" name="pickup_date" id="edit-pickup_date" required>
+                    </label>
+                    <label>Pickup Time
+                        <input type="time" name="pickup_time" id="edit-pickup_time" required>
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" class="btn-cancel" id="closeModal2">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="booking.js"></script>
+    <script src="admin.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
