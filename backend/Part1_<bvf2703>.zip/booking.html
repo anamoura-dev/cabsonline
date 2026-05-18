@@ -14,9 +14,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Main container for the booking form -->
     <div class="container">
         <h1>CabsOnline - Book a Taxi</h1>
 
+        <!--  Booking form for passengers to enter their details and submit a taxi booking request -->
         <form id="booking-form" method="POST">
             <div class="form-row">
                 <label>Customer Name <span class="required">*</span>
@@ -27,6 +29,7 @@
                 </label>
             </div>
 
+            <!-- Form rows for entering pickup address details, destination suburb, and pickup date/time -->
             <div class="form-row">
                 <label>Street Number <span class="required">*</span>
                     <input type="text" name="snumber" required>
@@ -36,6 +39,7 @@
                 </label>
             </div>
 
+            <!--  Optional form row for entering unit number and suburb details -->
             <div class="form-row">
                 <label>Unit Number
                     <input type="text" name="unumber">
@@ -45,12 +49,14 @@
                 </label>
             </div>
 
+            <!-- Form row for entering the destination suburb, which is optional -->
             <div class="form-row">
                 <label>Destination Suburb
                     <input type="text" name="dsbname">
                 </label>
             </div>
 
+            <!--  Form row for entering the pickup date and time, which are required fields -->
             <div class="form-row">
                 <label>Pick-Up Date <span class="required">*</span>
                     <input type="date" name="date" id="pickup-date" required>
@@ -68,6 +74,7 @@
         </div>
     </div>
 
+    <!-- External JavaScript file that handles form submission, input validation, and displaying booking reference numbers -->
     <script src="booking.js"></script>
 </body>
 </html>

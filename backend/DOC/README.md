@@ -38,10 +38,10 @@
 
 ## 3. How to Run
 
-### Part 1 — Deploy no Servidor webdev.aut.ac.nz
+### Part 1 — Deploy on Server webdev.aut.ac.nz
 
-**Passo 1 — Preparar a base de dados no webdev:**
-1. Aceder ao MySQL do webdev via SSH ou phpMyAdmin
+**Step 1 — Preper database on webdev:**
+1. Turn on the MySQL on webdev via SSH ou phpMyAdmin
 2. Executar os comandos contidos em `assign/mysqlcommand.txt`:
    ```sql
    CREATE DATABASE IF NOT EXISTS bvf2703;

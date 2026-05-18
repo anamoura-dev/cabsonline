@@ -3,8 +3,16 @@
 -- File: mysqlcommand.txt
 -- Description: MySQL commands to create the CabsOnline database and bookings table.
 
+========================================
+Create Database
+========================================
 CREATE DATABASE IF NOT EXISTS bvf2703;
 USE bvf2703;
+
+
+========================================
+Create Bookings Table
+========================================
 
 CREATE TABLE IF NOT EXISTS bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,

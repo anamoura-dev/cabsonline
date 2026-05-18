@@ -30,6 +30,7 @@ function getConnection($host, $dbname, $username, $password)
     }
 }
 
+// Establish database connection
 $pdo = getConnection($host, $dbname, $username, $password);
 
 if (!$pdo) {
@@ -37,6 +38,7 @@ if (!$pdo) {
     exit;
 }
 
+// Sanitize and validate input data
 $cname   = trim($_POST["cname"] ?? "");
 $phone   = trim($_POST["phone"] ?? "");
 $unumber = trim($_POST["unumber"] ?? "");
@@ -45,7 +47,7 @@ $stname  = trim($_POST["stname"] ?? "");
 $sbname  = trim($_POST["sbname"] ?? "");
 $dsbname = trim($_POST["dsbname"] ?? "");
 $date    = trim($_POST["date"] ?? "");
-$time    = trim($_POST["time"] ?? "");
+$time    = trim($_POST["time"] ?? ""); 
 
 /* Truncate to match column limits */
 $cname   = substr($cname, 0, 100);
@@ -119,12 +121,14 @@ try {
         ":booking_datetime" => $bookingDateTime
     ]);
 
+    /* Return success response with booking details */
     echo json_encode([
         "success"     => true,
         "bookingRef"  => $bookingRef,
         "pickupDate"  => date("d/m/Y", strtotime($date)),
         "pickupTime"  => date("H:i", strtotime($time))
     ]);
+    
 } catch (PDOException $e) {
     echo json_encode(["success" => false, "error" => "Failed to save booking."]);
 }

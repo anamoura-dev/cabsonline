@@ -46,10 +46,12 @@ function validateForm(formData) {
         return "Please fill in all required fields.";
     }
 
+    //  Allow only digits, length between 10 and 12
     if (!/^\d{10,12}$/.test(phone)) {
         return "Phone number must be 10-12 digits only.";
     }
 
+    // Combine date and time to create a Date object for validation
     var pickupDT = new Date(date + "T" + time);
     var now = new Date();
 
@@ -88,6 +90,7 @@ function displayError(text) {
     refEl.innerHTML = text;
 }
 
+// Initialize form and event listeners on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
     prefillDateTime();
 

@@ -8,30 +8,43 @@
 -->
 <html lang="en">
 <head>
+    <!-- Meta information for proper character encoding and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title displayed in browser tab -->
     <title>CabsOnline - Admin</title>
+
+    <!-- Link to external stylesheet for styling -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Main container for the admin interface -->
     <div class="container">
         <h1>CabsOnline - Admin</h1>
         <p>Search for a booking by reference number, or leave blank to view unassigned bookings within 2 hours.</p>
 
+        <!-- Form group for booking reference number input -->
         <div class="form-group">
             <label for="bsearch">Booking Reference Number (optional)</label>
             <input type="text" id="bsearch" name="bsearch">
         </div>
 
+        <!-- Button to trigger search for bookings -->
         <div class="form-group">
+        <!-- Search button to find bookings based on reference number or time frame -->
             <input type="button" name="sbutton" id="sbutton" value="Search Booking">
         </div>
-
+        <!-- Paragraph element to display messages to the admin user -->
         <p id="adminMessage" class="message"></p>
-
+        <!-- Div to display search results or booking information -->
         <div class="content" id="result"></div>
     </div>
 
+    <!-- External JavaScript file that handles:
+         - Search functionality
+         - Displaying booking results
+         - Assigning taxis -->
     <script src="admin.js"></script>
-</body>
+</body> 
 </html>

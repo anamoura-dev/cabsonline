@@ -8,6 +8,8 @@
 */
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    // Get references to key DOM elements for interaction
     var searchButton = document.getElementById("sbutton");
     var searchInput = document.getElementById("bsearch");
     var adminMessage = document.getElementById("adminMessage");
@@ -36,17 +38,22 @@ document.addEventListener("DOMContentLoaded", function () {
             url += "&bsearch=" + encodeURIComponent(searchValue);
         }
 
+        // Send a GET request to the server to search for bookings
         fetch(url)
             .then(function (response) { return response.json(); })
             .then(function (data) {
+                // Check if the search was successful and if there are bookings to display
                 if (data.success && data.bookings && data.bookings.length > 0) {
                     displayBookings(data.bookings);
+                    // If no bookings are found but the search was successful, show a message
                 } else if (data.success) {
                     showMessage("No booking records found.", false);
+                    // If the search was not successful, show an error message
                 } else {
                     showMessage(data.error || "Search failed.", true);
                 }
             })
+            // Handle any network or unexpected errors during the fetch operation
             .catch(function (err) {
                 showMessage("An error occurred: " + err.message, true);
             });
@@ -69,10 +76,12 @@ document.addEventListener("DOMContentLoaded", function () {
             "<th>Assign</th>" +
             "</tr></thead><tbody>";
 
+        // Loop through each booking and create a table row with its details and an assign button
         for (var i = 0; i < bookings.length; i++) {
             var b = bookings[i];
             var isAssigned = b.status.toLowerCase() === "assigned";
 
+            // Create a table row for each booking with its details and an assign button
             html += "<tr>" +
                 "<td>" + b.booking_ref + "</td>" +
                 "<td>" + b.customer_name + "</td>" +
@@ -87,10 +96,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 (isAssigned ? " disabled" : "") + ">" +
                 "</td></tr>";
         }
-
+        // Close the table and set the inner HTML of the results div to display the bookings
         html += "</tbody></table>";
         resultDiv.innerHTML = html;
 
+        // Add click event listeners to all assign buttons in the rendered table
         var buttons = resultDiv.querySelectorAll(".assignButton");
         for (var j = 0; j < buttons.length; j++) {
             buttons[j].addEventListener("click", function () {
@@ -105,8 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
      * @param {HTMLElement} btn - The clicked assign button element.
      */
     function assignBooking(ref, btn) {
+        // Clear any existing messages before sending the assign request
         adminMessage.textContent = "";
 
+        // Send a GET request to the server to assign the booking with the given reference number
         fetch("admin.php?action=assign&assign=" + encodeURIComponent(ref))
             .then(function (response) { return response.json(); })
             .then(function (data) {
@@ -124,16 +136,18 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    // Add click event listener to the search button to trigger the booking search
     searchButton.addEventListener("click", function () {
         var value = searchInput.value.trim();
 
+        // Validate the booking reference number format if a value is entered
         if (value !== "") {
             if (!/^BRN\d{5}$/.test(value)) {
                 showMessage("Booking reference number must be in the format BRN00001.", true);
                 return;
             }
         }
-
+        // Trigger the search for bookings based on the input value (reference number or empty for unassigned)
         searchBookings(value);
     });
 });

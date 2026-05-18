@@ -29,14 +29,16 @@ function getConnection($host, $dbname, $username, $password)
         return null;
     }
 }
-
+// Establish database connection
 $pdo = getConnection($host, $dbname, $username, $password);
 
+// If connection fails, return an error response and exit
 if (!$pdo) {
     echo json_encode(["success" => false, "error" => "Database connection failed."]);
     exit;
 }
 
+// Determine the action based on the "action" query parameter
 $action = $_GET["action"] ?? "";
 
 if ($action === "search") {
@@ -58,6 +60,7 @@ function handleSearch($pdo)
 {
     $bsearch = trim($_GET["bsearch"] ?? "");
 
+    // Validate the booking reference number format if provided, and return an error if it's invalid
     try {
         if ($bsearch !== "") {
             if (!preg_match("/^BRN\d{5}$/", $bsearch)) {
@@ -65,6 +68,7 @@ function handleSearch($pdo)
                 exit;
             }
 
+            // Query the database for the booking record matching the provided reference number
             $sql = "SELECT
                         booking_ref, customer_name, phone,
                         suburb AS pickup_suburb, destination_suburb,
@@ -159,6 +163,7 @@ function handleAssign($pdo)
         $updateStmt = $pdo->prepare($updateSql);
         $updateStmt->execute([":ref" => $bookingRef]);
 
+        // Check if the update was successful
         echo json_encode([
             "success" => true,
             "message" => "Congratulations! Booking request " . $bookingRef . " has been assigned!"
