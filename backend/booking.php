@@ -7,16 +7,11 @@
     generates a unique booking reference number, stores the booking in the
     MySQL database, and returns a JSON response to the client.
 */
-header("Content-Type: application/json");
 
-$host = "webdev.aut.ac.nz";
-$dbname = "bvf2703";
-$username = "bvf2703";
-$password = "tuumyvkdsxafwxfcgajytsmtgppzqngwp";
+require_once __DIR__ . '/includes/bootstrap.php';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = cabsonline_pdo();
 } catch (PDOException $e) {
     echo json_encode([
         "success" => false,
@@ -53,19 +48,26 @@ if (!preg_match("/^[0-9]{10,12}$/", $phone)) {
     exit;
 }
 
-// Date/Time validation (handles wrap-around)
+// Date/Time validation
 $pickupDateTime = new DateTime("$date $time");
 $currentDateTime = new DateTime();
-$twoHoursLater = $currentDateTime->modify('+2 hours');
 
-// Handle time wrap-around case
-if ($pickupDateTime > $twoHoursLater) {
+if ($pickupDateTime < $currentDateTime) {
     echo json_encode([
         "success" => false,
-        "error" => "Pick-up time must be within next 2 hours from current time."
+        "error" => "Pick-up date/time cannot be in the past."
     ]);
     exit;
 }
+
+// Truncate to match column limits
+$cname   = substr($cname, 0, 100);
+$phone   = substr($phone, 0, 12);
+$unumber = substr($unumber, 0, 20);
+$snumber = substr($snumber, 0, 20);
+$stname  = substr($stname, 0, 100);
+$sbname  = substr($sbname, 0, 100);
+$dsbname = substr($dsbname, 0, 100);
 
 // Generate reference number
 $stmt2 = $pdo->query("SELECT COUNT(*) FROM bookings");

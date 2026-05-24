@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/part-1/*"
+  to = "http://webdev.aut.ac.nz/bvf2703/:splat"
+  status = 200
+  force = true
