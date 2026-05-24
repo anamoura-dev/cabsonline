@@ -7,7 +7,6 @@
     generates a unique booking reference number, stores the booking in the
     MySQL database, and returns a JSON response to the client.
 */
-header("Content-Type: application/json");
 
 require_once __DIR__ . '/includes/bootstrap.php';
 

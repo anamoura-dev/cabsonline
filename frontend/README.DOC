@@ -1,208 +1,189 @@
-CabsOnline — Project Documentation
-====================================
+CabsOnline - Part 2 React Application
 
 Student: Ana Carolina Alves de Moura
 Student ID: 23201111
 Course: Web Development
-Date: April 2026
+Date: May 2026
 
 
 1. Deployed URL
-----------------
-Part 1 (PHP): http://webdev.aut.ac.nz/bvf2703/ (uploaded to the webdev server)
-Part 2 (React): Deployed locally or via GitHub Pages / Vercel (static build from part2/dist/)
+---------------
+The app hasn't been hosted on a public URL. It runs locally at
+http://localhost:5173 (see section 3 for how to run it). The production
+build (npm run build) outputs to dist/ and can be deployed to any static
+host like Vercel or Netlify.
 
 
 2. Technology Stack
---------------------
-
-Part 1 — Server-side Assignment (assign/)
-  Frontend:       HTML5, CSS3, Vanilla JavaScript (ES6+)
-  Backend:        PHP 8.x
-  Database:       MySQL (on webdev.aut.ac.nz)
-  Communication:  Fetch API (asynchronous JSON)
-
-Part 2 — React Application (part2/)
-  Frontend:       React 19, Vite 6
-  Routing:        Client-side page switching (state-based SPA)
-  State:          React Context API (BookingContext, ThemeContext)
-  Map:            Leaflet 1.9 + react-leaflet 5.0
-  Styling:        CSS custom properties (dark/light theme)
-  Backend:        Reuses the same PHP API from Part 1 via Vite dev proxy
+-------------------
+- React 19.1.0 with Vite 6.3.1
+- No routing library — page navigation is handled with a single activePage
+  state variable in App.jsx
+- React Context API for global state (BookingContext for CRUD, ThemeContext
+  for dark/light mode)
+- Leaflet 1.9.4 + react-leaflet 5.0.0 for maps, with OpenStreetMap tiles
+- Nominatim (OpenStreetMap) for reverse geocoding in the booking form
+- Plain CSS with custom properties for theming, no CSS framework
+- No charting library — the dashboard bar chart is built with inline SVG
 
 
-3. How to Run and Build the Project Locally
---------------------------------------------
+3. How to Run and Build Locally
+--------------------------------
+You need Node.js 18+ and the Part 1 PHP backend running at localhost:8080
+(see backend/readme.txt).
 
-Prerequisites:
-  - PHP 8.x with pdo_mysql extension enabled
-  - MySQL 8.x running on localhost:3306
-  - Node.js 18+ and npm
+To start the dev server:
+  cd frontend
+  npm install
+  npm run dev
 
-Step 1 — Set up the database:
-  Open a terminal and run:
-    mysql -u root -e "SOURCE mysqlcommand.txt"
-  This creates the bvf2703 database and the bookings table.
+Open http://localhost:5173. The Vite dev server proxies all /part-1/*
+requests to the PHP backend so there are no CORS issues.
 
-Step 2 — Configure environment:
-  Copy .env.example to .env in the project root and fill in your local DB credentials:
-    DB_HOST=localhost
-    DB_NAME=bvf2703
-    DB_USER=root
-    DB_PASSWORD=
+To build for production:
+  npm run build
 
-Step 3 — Start the PHP backend (from the project root):
-    php -S localhost:8080
-
-Step 4 — Install React dependencies and start the dev server:
-    cd part2
-    npm install
-    npm run dev
-
-Step 5 — Open the application:
-  Open http://localhost:5173 in your browser.
-  The Vite dev proxy automatically forwards /api/* requests to the PHP backend at localhost:8080.
-
-Building for Production:
-    cd part2
-    npm run build
-  The optimised static files are generated in part2/dist/.
-  These files can be deployed to any static hosting service (GitHub Pages, Vercel, Netlify, etc.).
-
-Deploy to webdev server (Part 1 only):
-  1. Connect to webdev.aut.ac.nz via SFTP (Host: webdev.aut.ac.nz, User: bvf2703).
-  2. Upload all files from the assign/ folder to htdocs/assign/ on the server.
-  3. Run the SQL commands from mysqlcommand.txt on the webdev MySQL server.
-  4. Access via: http://webdev.aut.ac.nz/bvf2703/assign/booking.html
+The output goes to dist/ and can be dropped into any static hosting service.
 
 
-4. Microservice API Endpoints
-------------------------------
+4. API Endpoints
+----------------
+All requests go through the Vite proxy at /part-1/* in development, which
+forwards to http://localhost:8080.
 
-booking.php — POST (creates a new booking)
-  Parameters (FormData):
-    cname    (required)  Customer name
-    phone    (required)  Phone number (10-12 digits)
-    snumber  (required)  Street number
-    stname   (required)  Street name
-    unumber  (optional)  Unit number
-    sbname   (optional)  Suburb
-    dsbname  (optional)  Destination suburb
-    date     (required)  Pickup date (YYYY-MM-DD)
-    time     (required)  Pickup time (HH:MM)
+booking.php (POST) — creates a new booking
+  Required fields: cname, phone, snumber, stname, date, time
+  Optional fields: unumber, sbname, dsbname
+  Returns: { success, bookingRef, pickupDate, pickupTime }
 
-  Response (JSON):
-    { "success": true, "bookingRef": "BRN00001", "pickupDate": "09/04/2026", "pickupTime": "14:30" }
+admin.php (GET) — used across the Admin, Dashboard and Map pages
+  ?action=list                                  returns all bookings
+  ?action=search&bsearch=BRN00001              finds a specific booking
+  ?action=assign&ref=BRN00001&status=assigned  assigns a taxi
+  ?action=assign&ref=BRN00001&status=unassigned  unassigns
+  ?action=delete&ref=BRN00001                  deletes a booking
 
-admin.php — GET endpoints:
-  ?action=search                                    Returns unassigned bookings within 2 hours
-  ?action=search&bsearch=BRN00001                   Returns exact booking match
-  ?action=list                                      Returns all bookings (Part 2)
-  ?action=assign&ref=BRN00001&status=assigned        Assigns a taxi to the booking
-  ?action=delete&ref=BRN00001                        Deletes a booking (Part 2)
+admin.php (POST) — used by the edit modal in the Admin page
+  Fields: action=update, ref, and any booking fields to update
 
-admin.php — POST endpoint:
-  action=update, ref=BRN00001, customer_name, phone, etc.   Updates booking fields (Part 2)
-
-Local endpoint:  http://localhost:8080/booking.php, http://localhost:8080/admin.php
-Remote endpoint: http://webdev.aut.ac.nz/bvf2703/booking.php, http://webdev.aut.ac.nz/bvf2703/admin.php
+Nominatim (GET) — used by the LocationPicker component
+  https://nominatim.openstreetmap.org/reverse?lat=...&lon=...&format=json
+  Called whenever the user places or drags a marker on the booking form map.
 
 
-5. Feature Descriptions
--------------------------
+5. Features
+-----------
+The app extends Part 1 with four extra features:
 
-Part 1 Features:
-  1. Booking Form — Customer fills in pickup details; date/time pre-filled with current values.
-  2. Client-side Validation — Required fields, phone format (10-12 digits), date/time not in past.
-  3. Async Submission — Form data sent via fetch() POST; JSON response displayed without page reload.
-  4. Booking Reference — Auto-generated incremental BRN format (BRN00001, BRN00002, ...).
-  5. Admin Search — Search by exact reference number, or view unassigned bookings within 2 hours.
-  6. Taxi Assignment — One-click assign button; status updates to "assigned" in real time.
+Full CRUD admin panel
+The Admin page shows all bookings as cards. You can assign or unassign a
+taxi with one click, edit any field through a modal dialog, and delete a
+booking. Changes are reflected immediately without a page reload.
 
-Part 2 Additional Features (4 extensions):
-  1. Full CRUD — Create, Read, Update, and Delete bookings via the Admin Panel with a
-     card-based UI and edit modal. Users can modify any booking field and delete records.
-  2. Dashboard with Statistics — Displays total bookings count, assigned vs unassigned counts,
-     and a bar chart showing bookings per day for the last 14 days.
-  3. Dark/Light Mode — Theme toggle button in the sidebar (desktop) and header (mobile).
-     Uses CSS custom properties for instant switching. Theme preference persisted in localStorage.
-  4. Interactive Map — Leaflet map centered on Auckland showing pickup and destination locations
-     as markers based on suburb name geocoding. Clicking a marker shows booking details.
+Dashboard with statistics
+Shows total, assigned and unassigned booking counts, plus a bar chart of
+bookings created per day over the last 14 days.
+
+Dark/light mode
+A toggle in the sidebar (desktop) and header (mobile) switches the theme.
+It uses CSS custom properties so the whole UI updates instantly. The
+preference is saved in localStorage and restored on the next visit.
+
+Interactive map
+There are two map experiences. In the booking form, a Leaflet map lets you
+click to place a pickup marker (cyan) and a destination marker (green).
+After placing each marker the app calls the Nominatim reverse-geocoding API
+and automatically fills in the address fields. Markers are draggable — moving
+one updates the fields again. There is also a "My Location" button that uses
+the browser Geolocation API to centre the map on the user.
+
+The second map is a separate page that plots all existing bookings on an
+Auckland-centred map, matching suburb names against a built-in dictionary of
+coordinates. Clicking a marker shows the booking reference and customer name.
+
+All async actions (booking confirmed, taxi assigned, edit saved, errors)
+show a colour-coded toast notification that fades out automatically.
 
 
-6. Testing Instructions
-------------------------
+6. Testing
+----------
+To test, first create a booking with these details:
+  Name: Jane Doe
+  Phone: 0211234567
+  Street number: 42
+  Street name: Queen Street
+  Suburb: Auckland CBD
+  Destination: Ponsonby
+  Date/time: anything in the future
 
-Example booking references: BRN00001, BRN00002, BRN00003
-Sample test data:
-  - Customer Name: John Smith
-  - Phone: 0211234567
-  - Street Number: 42
-  - Street Name: Queen Street
-  - Suburb: Auckland CBD
-  - Destination: Ponsonby
-  - Date: (current date)
-  - Time: (current time + 30 minutes)
+The booking will get a reference like BRN00001. Use that reference in the
+Admin page search to find and manage it.
 
-Manual Testing Checklist:
-  [ ] Booking form validates required fields (shows error if empty).
-  [ ] Phone validation rejects non-numeric and wrong-length inputs.
-  [ ] Date/time in the past is rejected by both client and server.
-  [ ] Successful booking displays reference number, date, and time.
-  [ ] Admin search by reference returns exact match.
-  [ ] Empty search returns unassigned bookings within 2 hours.
-  [ ] Assign button changes status to "assigned" and disables the button.
-  [ ] Part 2: Edit modal updates booking details correctly.
-  [ ] Part 2: Delete removes the booking from the list.
-  [ ] Part 2: Dashboard statistics update after bookings change.
-  [ ] Part 2: Map shows markers for recognized Auckland suburbs.
-  [ ] Part 2: Theme toggle switches between dark and light mode.
-  [ ] Part 2: Active page and theme persist across page reloads.
-  [ ] Responsive layout works on mobile (tab bar) and desktop (sidebar).
+Suburbs that work with the Map page:
+Auckland CBD, Ponsonby, Parnell, Newmarket, Grey Lynn, Mt Eden, Epsom,
+Remuera, Mission Bay, Takapuna, Devonport, Mt Albert, Henderson, Manukau,
+Onehunga, Ellerslie, Penrose, Grafton, Mt Wellington, Otahuhu.
 
-Browser Compatibility:
-  Tested on: Google Chrome (latest), Microsoft Edge (latest), Firefox (latest).
+Things to check manually:
+- Booking form rejects empty fields, wrong phone formats and past dates
+- Clicking the map fills in the address fields
+- Dragging a marker updates the fields again
+- "My Location" centres the map (browser will ask for permission)
+- Admin assign/unassign, edit and delete all update the card immediately
+- Dashboard counts change after you add or remove a booking
+- Map page shows markers for bookings with recognised suburb names
+- Theme toggle works and persists after refresh
+- Active page persists after refresh
+- Layout switches between sidebar (desktop) and tab bar (mobile)
+
+Tested on Chrome, Edge and Firefox.
 
 
 7. Known Limitations
----------------------
+--------------------
+- The Map page only recognises about 20 Auckland suburbs. Anything else won't
+  appear as a marker. The booking form map is not affected since it uses live
+  geocoding.
 
-  1. Suburb geocoding is static — The map uses a predefined dictionary of Auckland suburb
-     coordinates. Suburbs not in the dictionary will not appear on the map.
-  2. Booking reference generation — Uses COUNT(*) + 1 which may produce duplicates if
-     bookings are deleted and re-inserted. A production system should use a dedicated sequence.
-  3. No authentication — The admin panel has no login or access control. In a real system,
-     admin endpoints should be protected with session-based or token-based authentication.
-  4. No pagination — The admin booking list loads all records at once. For large datasets,
-     server-side pagination would be needed.
-  5. PHP credentials hardcoded (Part 1) — Required by the webdev server environment.
-     Part 2 uses environment variables via .env for local development.
+- The Nominatim API has a rate limit of one request per second. Dragging
+  markers quickly could cause some requests to be delayed or dropped.
+
+- Both maps need an internet connection to load the OpenStreetMap tiles.
+
+- The admin panel has no login. Anyone with the URL can view and modify all
+  bookings. Not suitable for a real production environment.
+
+- All bookings load at once. For a large number of records this would be slow,
+  but it's fine for this project's scope.
+
+- Booking reference numbers use COUNT(*) + 1, so deleting bookings and
+  creating new ones could eventually produce duplicates.
 
 
-8. Reflection on AI-Supported Development Process
----------------------------------------------------
+8. AI Reflection
+----------------
+I used Claude (through Cursor IDE and the Claude Code CLI) throughout this
+project.
 
-This project was developed with the assistance of an AI coding tool (Cursor IDE with Claude).
+It was most helpful for getting started quickly — generating the initial
+component structure, the Context API setup, and the CSS theming system saved
+a lot of time. It was also good at explaining why something wasn't working,
+like when I had a mismatch between the PHP column names and the React field
+names that was silently dropping the suburb data.
 
-How AI was used:
-  - Scaffolding: Generating the initial project structure, React components, and CSS styling.
-  - Debugging: Identifying incorrect SQL column names, PHP extension configuration issues,
-    and JavaScript date parsing bugs that caused validation failures.
-  - Best practices: Suggesting PDO prepared statements for SQL injection prevention, input
-    validation on both client and server sides, and CSS custom properties for theming.
-  - Responsiveness: Implementing the mobile tab bar and card-based layout to replace tables
-    on small screens.
+For the LocationPicker specifically, I described what I wanted (click to set
+pickup, click again for destination, auto-fill the form from the coordinates)
+and it gave me a solid starting point. The suggestion to use one shared
+geocoding function for both the click handler and the drag handler made the
+component much cleaner than what I had started with.
 
-What I learned from AI assistance:
-  - AI is excellent at generating boilerplate code and suggesting design patterns, but the
-    developer must understand the code to debug and adapt it to specific requirements.
-  - The assignment required very specific HTML attribute names (e.g., name="cname",
-    name="bsearch"), which the AI initially missed. Careful review against the specification
-    document was essential to ensure compliance.
-  - AI-generated code sometimes needs to be restructured to match deployment constraints
-    (e.g., hardcoded credentials for the webdev server vs. environment variables for local dev).
-  - The iterative process of reviewing AI output, testing, and refining helped me understand
-    the full stack (HTML, CSS, JavaScript, PHP, MySQL, React) at a deeper level than writing
-    everything from scratch would have in the available time.
-  - AI tools work best when given clear, specific prompts and when the developer actively
-    reviews each piece of generated code rather than accepting it blindly.
+That said, I had to review everything carefully. The AI got the Nominatim
+response field names wrong at first (using "lng" instead of "lon"), which
+caused the geocoding to silently fail. I only caught it by reading the API
+docs myself. It also sometimes suggested patterns that were more complex than
+needed — a few useEffect hooks got replaced with simpler event-driven updates
+once I understood what the code actually needed to do.
+
+The biggest thing I took away is that AI is a good collaborator when you
+know what you're building and can judge whether the output is correct. It
+speeds things up but doesn't replace understanding the code.

@@ -70,7 +70,7 @@ function cabsonline_pdo(): PDO
     }
 
     $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
-    $pdo = new PDO($dsn, $username, $password);
+    $pdo = new PDO($dsn, $username, $password); 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $pdo;
 }

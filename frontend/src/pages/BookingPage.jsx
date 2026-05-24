@@ -56,7 +56,7 @@ export default function BookingPage() {
     try {
       const body = new FormData();
       Object.entries(form).forEach(([k, v]) => body.append(k, v));
-      const res = await fetch("/api/booking.php", { method: "POST", body });
+      const res = await fetch("../part-1/booking.php", { method: "POST", body });
       const data = await res.json();
       if (data.success) { setConfirmation(data); }
       else { toast.show("error", data.error || "Booking failed."); }

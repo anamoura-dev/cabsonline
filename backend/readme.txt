@@ -1,21 +1,56 @@
 Student Name: Ana Carolina Alves de Moura
 Student ID: 23201111
 
-File List:
-1. booking.html - Booking page for customers to enter taxi booking details.
-2. booking.js - Client-side validation and asynchronous fetch request for booking submission.
-3. booking.php - Server-side script to process booking requests, generate booking reference numbers, and store bookings in the database.
-4. admin.html - Admin page for searching and assigning taxi bookings.
-5. admin.js - Client-side logic for admin search and assign actions.
-6. admin.php - Server-side script for searching bookings and assigning taxis.
-7. style.css - Stylesheet for the booking and admin pages.
-8. mysqlcommand.txt - MySQL commands used to create the database and table.
-9. readme.txt - This file containing file descriptions and usage instructions.
 
-Brief Instructions:
-1. Open booking.html to submit a taxi booking request.
-2. Fill in all required booking details and click the "Book Taxi" button.
-3. The system validates the input and sends the data to booking.php using fetch.
-4. booking.php processes the booking, stores it in the database, and returns a confirmation message.
-5. Open admin.html to search for a booking by reference number or leave the search field empty to see unassigned bookings within the next 2 hours.
-6. Click the "Assign" button to assign a taxi to a booking request.
+File List
+---------
+1.  index.html         Main entry point for the single-page application.
+2.  booking.html       Booking form page for customers.
+3.  booking.js         Client-side validation and fetch request for bookings.
+4.  booking.php        Processes booking submissions, generates reference numbers and saves to the database.
+5.  admin.html         Admin page for searching and assigning bookings.
+6.  admin.js           Client-side logic for the admin search and assign flow.
+7.  admin.php          Handles all admin actions: search, assign, list, update and delete.
+8.  app.js             Handles theme toggle and section switching for the SPA.
+9.  style.css          Stylesheet for all pages.
+10. mysqlcommand.txt   SQL commands to create the database and bookings table.
+11. readme.txt         This file.
+12. .env.example       Template for local database credentials.
+13. .gitignore         Git ignore rules.
+14. includes/bootstrap.php   Loads the .env file and returns a PDO database connection.
+15. DOC/README.md      Full project documentation.
+
+
+How to Run Locally
+------------------
+You need PHP 8.x (with pdo_mysql) and MySQL 8.x running on localhost.
+
+1. Create the database:
+mysql -u root -e "SOURCE mysqlcommand.txt"
+
+2. Copy .env.example to .env and fill in your local MySQL credentials.
+
+3. Start the PHP server from the backend folder:
+   php -S localhost:8080
+
+4. Open in the browser:
+   http://localhost:8080/booking.html  (booking form)
+   http://localhost:8080/admin.html    (admin panel)
+
+To deploy to webdev.aut.ac.nz, upload all files to htdocs/ via SFTP and run
+the SQL from mysqlcommand.txt on the webdev MySQL server.
+
+
+How to Use the System
+---------------------
+Booking a taxi:
+Open booking.html, fill in your name, phone number, pickup address, and
+choose a date and time in the future. Click "Book Taxi". If everything is
+valid the page shows a confirmation with your booking reference number
+(e.g. BRN00001), keep this for your records.
+
+Admin panel:
+Open admin.html. Type a booking reference in the search box to find a
+specific booking, or leave it empty and click Search to see all unassigned
+bookings due in the next 2 hours. Click "Assign" to assign a taxi to a
+booking, the status updates immediately.

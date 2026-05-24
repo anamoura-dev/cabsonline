@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useCallback } from "react";
 
 const BookingContext = createContext();
 
-const API = "/api/admin.php";
+const API = "../part-1/admin.php";
 
 export function BookingProvider({ children }) {
   const [bookings, setBookings] = useState([]);
