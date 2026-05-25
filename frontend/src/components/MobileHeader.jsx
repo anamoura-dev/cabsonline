@@ -1,3 +1,10 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: MobileHeader.jsx
+    Description: Fixed top header shown on mobile screens. Displays the app
+    brand name and a button to toggle between light and dark themes.
+*/
 import { useTheme } from "../context/ThemeContext";
 import { CarIcon, SunIcon, MoonIcon } from "./Icons";
 

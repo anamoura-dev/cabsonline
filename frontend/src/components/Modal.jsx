@@ -1,6 +1,14 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: Modal.jsx
+    Description: Reusable modal dialog component. Renders a centered overlay
+    with a title and content slot. Clicking outside the modal closes it.
+*/
 import { useEffect } from "react";
 
 export default function Modal({ open, onClose, title, children }) {
+  // Lock background scroll while modal is open
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";

@@ -1,3 +1,10 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: AdminPage.jsx
+    Description: Admin panel page for managing taxi bookings. Allows staff to
+    search, view, assign, edit, and delete bookings fetched from the backend API.
+*/
 import { useState, useEffect } from "react";
 import { useBookings } from "../context/BookingContext";
 import Modal from "../components/Modal";
@@ -21,6 +28,7 @@ export default function AdminPage() {
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 
+  // Validate format before sending to the API to avoid unnecessary requests
   const handleSearch = () => {
     if (searchRef.trim() && !/^BRN\d{5}$/.test(searchRef.trim())) {
       toast.show("error", "Format must be BRN followed by 5 digits (e.g. BRN00001).");
@@ -38,6 +46,7 @@ export default function AdminPage() {
     toast.show(result.success ? "success" : "error", result.message);
   };
 
+  // Ask for confirmation before deleting since the action is irreversible
   const handleDelete = async (ref) => {
     if (!window.confirm(`Are you sure you want to delete ${ref}? This cannot be undone.`)) return;
     const result = await deleteBooking(ref);

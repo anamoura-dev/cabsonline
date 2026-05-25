@@ -1,3 +1,12 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: Icons.jsx
+    Description: Collection of reusable SVG icon components used throughout the app.
+    Each icon merges caller props with defaults so size and colour can be overridden.
+*/
+
+// Shared defaults — callers can override any of these via props
 const defaultProps = { width: 20, height: 20, strokeWidth: 1.8, stroke: "currentColor", fill: "none" };
 
 export function CarIcon(props) {

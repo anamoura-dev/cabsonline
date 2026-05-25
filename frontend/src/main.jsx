@@ -1,3 +1,10 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: main.jsx
+    Description: Entry point of the React application. Wraps the app in all
+    required context providers (theme, bookings, toasts) and mounts it to the DOM.
+*/
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";

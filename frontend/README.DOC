@@ -8,7 +8,7 @@ Date: May 2026
 
 1. Deployed URL
 ---------------
-The app hasn't been hosted on a public URL. It runs locally at
+Hosted here https://webdev.aut.ac.nz/~bvf2703/assign/part-2/. It runs locally at
 http://localhost:5173 (see section 3 for how to run it). The production
 build (npm run build) outputs to dist/ and can be deployed to any static
 host like Vercel or Netlify.

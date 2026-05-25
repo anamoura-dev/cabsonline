@@ -1,4 +1,12 @@
 <?php
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: admin.php
+    Description: Server-side API for the admin panel. Handles listing, searching,
+    assigning, updating, and deleting bookings in the MySQL database.
+    Responds with JSON for all actions.
+*/
 header("Content-Type: application/json");
 
 require_once __DIR__ . '/includes/bootstrap.php';
@@ -10,6 +18,7 @@ try {
     exit;
 }
 
+// Accept action from either GET (list, search, assign, delete) or POST (update)
 $action = $_GET["action"] ?? $_POST["action"] ?? "";
 
 switch ($action) {

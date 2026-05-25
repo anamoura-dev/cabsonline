@@ -1,6 +1,14 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: Sidebar.jsx
+    Description: Fixed left navigation sidebar shown on desktop. Lists all
+    pages with icons, highlights the active one, and includes a theme toggle button.
+*/
 import { useTheme } from "../context/ThemeContext";
 import { CarIcon, ClipboardIcon, ChartIcon, MapPinIcon, SunIcon, MoonIcon } from "./Icons";
 
+// Maps page keys to their icon component and display label
 const NAV_ITEMS = {
   booking: { icon: CarIcon, label: "Book a Taxi" },
   admin: { icon: ClipboardIcon, label: "Admin Panel" },

@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: DashboardPage.jsx
+    Description: Dashboard page showing booking statistics. Displays total,
+    assigned, and unassigned counts, assignment rate, and a bar chart of
+    bookings per day for the last 14 days.
+*/
 import { useEffect, useMemo } from "react";
 import { useBookings } from "../context/BookingContext";
 import { ChartIcon, CarIcon, CheckCircleIcon } from "../components/Icons";
@@ -7,17 +15,20 @@ export default function DashboardPage() {
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 
+  // Recalculate stats only when bookings change
   const stats = useMemo(() => {
     const total = bookings.length;
     const assigned = bookings.filter((b) => b.status === "assigned").length;
     const unassigned = total - assigned;
     const rate = total > 0 ? Math.round((assigned / total) * 100) : 0;
 
+    // Group bookings by pickup date for the bar chart
     const byDay = {};
     bookings.forEach((b) => {
       const day = b.pickup_date || "Unknown";
       byDay[day] = (byDay[day] || 0) + 1;
     });
+    // Sort chronologically and keep only the last 14 days
     const sortedDays = Object.entries(byDay).sort(([a], [b]) => a.localeCompare(b)).slice(-14);
     const maxDayCount = Math.max(...sortedDays.map(([, c]) => c), 1);
 

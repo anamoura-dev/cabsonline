@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: MapPage.jsx
+    Description: Map view page that displays pickup and destination locations
+    for all bookings. Uses a suburb-to-coordinate lookup to place markers on
+    a Leaflet map centred on Auckland.
+*/
 import { useEffect, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
@@ -15,6 +23,7 @@ const markerIcon = new L.Icon({
   popupAnchor: [1, -34],
 });
 
+// Static lookup table mapping Auckland suburb names to lat/lng coordinates
 const SUBURB_COORDS = {
   "auckland cbd": [-36.8485, 174.7633],
   "ponsonby": [-36.8557, 174.7432],
@@ -48,6 +57,7 @@ export default function MapPage() {
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 
+  // Build the marker list from bookings — skips any suburb not found in SUBURB_COORDS
   const markers = useMemo(() => {
     const result = [];
     bookings.forEach((b) => {

@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: LocationPicker.jsx
+    Description: Interactive map component for selecting pickup and destination
+    locations. Clicking the map places a draggable pin and reverse-geocodes the
+    coordinates into an address using the Nominatim OpenStreetMap API.
+*/
 import { useState, useEffect, useRef, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
 import L from "leaflet";
@@ -30,6 +38,7 @@ const userLocIcon = new L.Icon({
   iconAnchor: [10, 10],
 });
 
+// Converts lat/lng to a human-readable address using the free Nominatim API
 async function reverseGeocode(lat, lng) {
   try {
     const res = await fetch(
@@ -119,6 +128,7 @@ export default function LocationPicker({
     );
   };
 
+  // Alternates between pickup and destination mode after each click
   const handleMapClick = async (latlng) => {
     setLoading(true);
     const address = await reverseGeocode(latlng.lat, latlng.lng);

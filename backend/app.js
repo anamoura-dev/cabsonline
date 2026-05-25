@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: app.js
+    Description: Shared JavaScript for the Part 1 HTML pages. Manages sidebar
+    and tab navigation between sections, and handles the light/dark theme toggle
+    with localStorage persistence.
+*/
 document.addEventListener("DOMContentLoaded", function () {
     var navLinks = document.querySelectorAll(".nav-link[data-section]");
     var tabLinks = document.querySelectorAll(".tab-link[data-section]");
@@ -26,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (themeIconMobile) themeIconMobile.innerHTML = icon;
     }
 
+    // Apply saved theme on load, defaulting to dark
     var savedTheme = localStorage.getItem("cabsonline_theme") || "dark";
     setTheme(savedTheme);
 
@@ -55,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.scrollTo(0, 0);
     }
 
+    // Restore the last active section from localStorage
     var savedSection = localStorage.getItem("cabsonline_section");
     if (savedSection && document.getElementById("section-" + savedSection)) {
         switchSection(savedSection);

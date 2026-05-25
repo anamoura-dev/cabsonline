@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: BookingPage.jsx
+    Description: Booking form page where customers enter their pickup details.
+    Includes an interactive map for selecting locations, client-side validation,
+    and displays a confirmation card on successful submission.
+*/
 import { useState } from "react";
 import { CarIcon } from "../components/Icons";
 import LocationPicker from "../components/LocationPicker";
@@ -15,6 +23,7 @@ function getNow() {
   };
 }
 
+// Default form state — date and time are pre-filled with the current moment
 const INITIAL = {
   cname: "", phone: "", snumber: "", stname: "",
   unumber: "", sbname: "", dsbname: "", ...getNow(),
@@ -67,6 +76,7 @@ export default function BookingPage() {
     }
   };
 
+  // Auto-fill address fields from the reverse geocode result when a pin is placed
   const handlePickupSelect = (latlng, address) => {
     setPickupPos(latlng);
     if (address) {

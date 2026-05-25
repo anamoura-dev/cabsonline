@@ -1,7 +1,15 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: BookingContext.jsx
+    Description: Global state and API functions for booking data. Provides
+    fetch, search, assign, update, and delete operations to all pages via context.
+*/
 import { createContext, useContext, useState, useCallback } from "react";
 
 const BookingContext = createContext();
 
+// Relative path works both locally (via Vite proxy) and on the webserver (same origin)
 const API = "../part-1/admin.php";
 
 export function BookingProvider({ children }) {

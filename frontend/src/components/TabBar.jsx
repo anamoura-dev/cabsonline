@@ -1,3 +1,10 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: TabBar.jsx
+    Description: Fixed bottom navigation bar shown on mobile screens.
+    Mirrors the sidebar navigation with icons and short labels.
+*/
 import { CarIcon, ClipboardIcon, ChartIcon, MapPinIcon } from "./Icons";
 
 const TAB_ITEMS = {

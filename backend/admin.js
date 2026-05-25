@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: admin.js
+    Description: Handles the admin panel on the Part 1 HTML page. Loads and
+    displays bookings as cards, and provides search, assign/unassign, edit,
+    and delete functionality by communicating with admin.php via fetch.
+*/
 document.addEventListener("DOMContentLoaded", function () {
     var searchButton = document.getElementById("searchBooking");
     var searchInput = document.getElementById("bsearch");
@@ -9,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!searchButton) return;
 
+    // Load all bookings immediately when the page opens
     loadBookings();
 
     searchButton.addEventListener("click", function () {
@@ -63,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         adminMessage.className = "message" + (isError ? " msg-error" : " msg-success");
     }
 
+    // Fetches bookings from admin.php — passes a ref to search, or omits it to list all
     function loadBookings(ref) {
         adminMessage.textContent = "";
         resultDiv.innerHTML = "";

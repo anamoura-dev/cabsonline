@@ -1,7 +1,15 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: Toast.jsx
+    Description: Toast notification system. Provides a context with show/dismiss
+    methods. Toasts auto-dismiss after a set duration and display success or error styles.
+*/
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
 
 const ToastContext = createContext(null);
 
+// Simple incrementing ID to uniquely identify each toast
 let idCounter = 0;
 
 export function ToastProvider({ children }) {
@@ -21,6 +29,7 @@ export function ToastProvider({ children }) {
     return id;
   }, [dismiss]);
 
+  // Clean up all pending timers when the provider unmounts
   useEffect(() => {
     const t = timers.current;
     return () => Object.values(t).forEach(clearTimeout);

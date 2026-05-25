@@ -1,3 +1,11 @@
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: booking.js
+    Description: Handles the booking form submission on the Part 1 HTML page.
+    Validates phone number and pickup date/time on the client side before
+    sending the form data to booking.php via fetch.
+*/
 document.getElementById("booking-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -8,6 +16,7 @@ document.getElementById("booking-form").addEventListener("submit", async functio
     var form = e.target;
     var phone = form.querySelector('input[name="phone"]').value.trim();
 
+    // Validate phone format before sending to avoid unnecessary server round-trips
     if (!/^\d{10,12}$/.test(phone)) {
         showMessage(refDiv, "Phone must be 10–12 digits.", true);
         return;

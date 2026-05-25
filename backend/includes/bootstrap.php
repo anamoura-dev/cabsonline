@@ -1,9 +1,15 @@
 <?php
+/*
+    Student Name: Ana Carolina Alves de Moura
+    Student ID: 23201111
+    File: bootstrap.php
+    Description: Shared bootstrap file that loads database credentials from the
+    .env file and provides the cabsonline_pdo() function used by booking.php
+    and admin.php to connect to the MySQL database.
+*/
 declare(strict_types=1);
 
-/**
- * Carrega variáveis de .env na raiz do projeto (sem dependências externas).
- */
+// Reads key=value pairs from the .env file and loads them into the environment
 function cabsonline_load_env(string $rootDir): void
 {
     $path = $rootDir . DIRECTORY_SEPARATOR . '.env';
