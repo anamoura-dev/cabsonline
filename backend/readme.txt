@@ -18,7 +18,7 @@ File List
 12. .env.example       Template for local database credentials.
 13. .gitignore         Git ignore rules.
 14. includes/bootstrap.php   Loads the .env file and returns a PDO database connection.
-15. DOC/README.md      Full project documentation.
+15. ../README.md       Full project documentation.
 
 
 How to Run Locally
